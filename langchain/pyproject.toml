@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "langchain-llm"
+version = "0.1.0"
+description = ""
+authors = ["Yi Ding <yi@fractal-llc.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^0.2.7"
+langchain-openai = "^0.1.14"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
