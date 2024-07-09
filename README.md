@@ -2,7 +2,7 @@
 
 Is your ChatGPT wrapper too slow? Is it causing you trouble in VC pitches? API changes frustrating your dev team? Wow, do I have the solution for you. libchatty is the world's first high performance ChatGPT wrapper written 100% in handcrafted, artisinal, C.
 
-libchatty is 212x faster than [LlamaIndex](llamaindex/README.md) and uses 12x less memory than [LangChain](langchain/README.md) and is even 20x faster than [LITS 🔥](lits/README.md).
+libchatty is 212x faster than [LlamaIndex](llamaindex/README.md), 40x faster than [LangChain](langchain/README.md) and is even 20x faster than [LITS 🔥](lits/README.md).
 
 ## FAQ
 
