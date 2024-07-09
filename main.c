@@ -3,7 +3,8 @@
 
 #include "chatty.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     chatty_Message messages[1];
 
     messages[0].role = CHATTY_USER;
@@ -16,7 +17,8 @@ int main(int argc, char *argv[]) {
 
     enum chatty_ERROR error = chatty_chat(1, messages, options, &response);
 
-    if (error != CHATTY_SUCCESS) {
+    if (error != CHATTY_SUCCESS)
+    {
         fprintf(stderr, "Error: %d\n", error);
         return 1;
     }
