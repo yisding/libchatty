@@ -28,6 +28,34 @@ Your mom. (what?) Your mom is who supports hybrid search. This is a light weight
 
 ## Benchmark Results
 
+### Llama 3.1 8B:
+```
+	Command being timed: "./groq.sh"
+	User time (seconds): 0.07
+	System time (seconds): 0.09
+	Percent of CPU this job got: 2%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:08.42
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 5824
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 41
+	Minor (reclaiming a frame) page faults: 6425
+	Voluntary context switches: 104
+	Involuntary context switches: 623
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 60
+	Socket messages received: 388
+	Signals delivered: 10
+	Page size (bytes): 16384
+	Exit status: 0
+```
+
+### GPT-4o:
 ```
 	Command being timed: "./loop.sh"
 	User time (seconds): 0.08

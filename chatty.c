@@ -6,7 +6,7 @@
 #include <curl/curl.h>
 #include "cJSON.h"
 
-/* Some lines taken from https://curl.se/libcurl/c/getinmemory.html */
+// Some lines taken from https://curl.se/libcurl/c/getinmemory.html
 struct chatty_Memory
 {
     char *memory;
@@ -21,7 +21,7 @@ static size_t chatty_write_memory(void *contents, size_t size, size_t nmemb, voi
     char *ptr = realloc(mem->memory, mem->size + realsize + 1);
     if (!ptr)
     {
-        /* out of memory! */
+        // out of memory!
         printf("not enough memory (realloc returned NULL)\n");
         return 0;
     }
@@ -114,11 +114,33 @@ char *chatty_to_json_string(int msgc, chatty_Message msgv[], chatty_Options opti
    You'll need to free response.message yourself. */
 enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options options, chatty_Message *response)
 {
-    char *key = curl_getenv("OPENAI_API_KEY");
+    char *base = curl_getenv("OPENAI_API_BASE");
+    bool free_base = true;
+    if (base == NULL)
+    {
+        base = "https://api.openai.com/v1";
+        free_base = false;
+    }
 
+    char *key_env = "OPENAI_API_KEY";
+    if (strncmp(base, "https://api.groq.com", strlen("https://api.groq.com")) == 0)
+    {
+        key_env = "GROQ_API_KEY";
+    }
+
+    char *key = curl_getenv(key_env);
     if (key == NULL)
     {
         return CHATTY_INVALID_KEY;
+    }
+
+    size_t chat_url_len = strlen(base) + strlen("/chat/completions") + 1;
+    char *chat_url = malloc(chat_url_len);
+    snprintf(chat_url, chat_url_len, "%s/chat/completions", base);
+
+    if (free_base)
+    {
+        curl_free(base);
     }
 
     size_t header_len = strlen("Authorization: Bearer ") + strlen(key) + 1;
@@ -126,7 +148,7 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     snprintf(bearer_header, header_len, "Authorization: Bearer %s", key);
     curl_free(key);
 
-    /* In windows, this inits the winsock stuff, although tbh I haven't tested this on Windows. */
+    // In windows, this inits the winsock stuff, although tbh I haven't tested this on Windows.
     curl_global_init(CURL_GLOBAL_ALL);
 
     CURL *curl = curl_easy_init();
@@ -134,6 +156,7 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     {
         curl_global_cleanup();
         free(bearer_header);
+        free(chat_url);
         return CHATTY_CURL_INIT_ERROR;
     }
 
@@ -143,17 +166,19 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     {
         curl_easy_cleanup(curl);
         curl_global_cleanup();
+        free(chat_url);
         free(bearer_header);
         return CHATTY_INVALID_OPTIONS;
     }
 
     struct chatty_Memory chunk;
 
-    chunk.memory = malloc(1); /* grown as needed by the realloc above */
-    chunk.size = 0;           /* no data at this point */
+    chunk.memory = malloc(1); // grown as needed by the realloc above
+    chunk.size = 0;           // no data at this point
 
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libchatty/1.0");
-    curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/chat/completions");
+    curl_easy_setopt(curl, CURLOPT_URL, chat_url);
+    free(chat_url);
     curl_easy_setopt(curl, CURLOPT_PROXY_SSL_VERIFYPEER, 0);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 
@@ -234,7 +259,7 @@ parse_end:
         response->message = strdup(content->valuestring);
     }
 
-    /* cleanup */
+    // cleanup
     cJSON_Delete(response_json); // Works even if response_json is NULL
     free(chunk.memory);
     curl_easy_cleanup(curl);

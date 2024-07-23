@@ -11,8 +11,15 @@ int main(int argc, char *argv[])
     messages[0].message = "What is the C++ FQA?";
 
     chatty_Options options = {0};
-    options.model = "gpt-4o";
 
+    if (argc >= 2)
+    {
+        options.model = argv[1];
+    }
+    else
+    {
+        options.model = "gpt-4o";
+    }
     chatty_Message response;
 
     enum chatty_ERROR error = chatty_chat(1, messages, options, &response);
