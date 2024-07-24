@@ -8,7 +8,15 @@ int main(int argc, char *argv[])
     chatty_Message messages[1];
 
     messages[0].role = CHATTY_USER;
-    messages[0].message = "What is the C++ FQA?";
+
+    if (argc >= 3)
+    {
+        messages[0].message = argv[2];
+    }
+    else
+    {
+        messages[0].message = "What is the C++ FQA?";
+    }
 
     chatty_Options options = {0};
 
@@ -30,7 +38,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    printf("Response: %s\n", response.message);
+    printf("LLM Response:\n%s\n", response.message);
 
     free(response.message);
     return 0;

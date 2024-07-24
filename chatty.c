@@ -127,6 +127,10 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     {
         key_env = "GROQ_API_KEY";
     }
+    else if (strncmp(base, "https://api.fireworks.ai", strlen("https://api.fireworks.ai")) == 0)
+    {
+        key_env = "FIREWORKS_API_KEY";
+    }
 
     char *key = curl_getenv(key_env);
     if (key == NULL)

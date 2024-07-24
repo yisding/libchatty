@@ -28,7 +28,7 @@ Your mom. (what?) Your mom is who supports hybrid search. This is a light weight
 
 ## Benchmark Results
 
-### Llama 3.1 8B:
+### Llama 3.1 8B (Groq):
 ```
 	Command being timed: "./groq.sh"
 	User time (seconds): 0.07
@@ -50,6 +50,87 @@ Your mom. (what?) Your mom is who supports hybrid search. This is a light weight
 	File system outputs: 0
 	Socket messages sent: 60
 	Socket messages received: 388
+	Signals delivered: 10
+	Page size (bytes): 16384
+	Exit status: 0
+```
+
+### Llama 3.1 70B (Groq)
+```
+	Command being timed: "./groq.sh"
+	User time (seconds): 0.03
+	System time (seconds): 0.04
+	Percent of CPU this job got: 0%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:17.98
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 5920
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 21
+	Minor (reclaiming a frame) page faults: 6433
+	Voluntary context switches: 122
+	Involuntary context switches: 562
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 60
+	Socket messages received: 410
+	Signals delivered: 10
+	Page size (bytes): 16384
+	Exit status: 0
+```
+
+### Llama 3.1 70B (Fireworks)
+```
+	Command being timed: "./fireworks.sh"
+	User time (seconds): 0.04
+	System time (seconds): 0.05
+	Percent of CPU this job got: 0%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:29.64
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 6016
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 52
+	Minor (reclaiming a frame) page faults: 6311
+	Voluntary context switches: 139
+	Involuntary context switches: 604
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 60
+	Socket messages received: 390
+	Signals delivered: 10
+	Page size (bytes): 16384
+	Exit status: 0
+```
+
+### Llama 3.1 405B (Fireworks)
+```
+	Command being timed: "./fireworks.sh"
+	User time (seconds): 0.08
+	System time (seconds): 0.10
+	Percent of CPU this job got: 0%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:40.66
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 6176
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 21
+	Minor (reclaiming a frame) page faults: 6331
+	Voluntary context switches: 194
+	Involuntary context switches: 636
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 60
+	Socket messages received: 390
 	Signals delivered: 10
 	Page size (bytes): 16384
 	Exit status: 0
