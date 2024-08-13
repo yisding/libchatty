@@ -2,5 +2,5 @@
 
 for i in {1..10}
 do
-    ./chatty
+    build/chatty
 done
