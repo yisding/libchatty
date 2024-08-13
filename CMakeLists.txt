@@ -12,6 +12,10 @@ project(
   DESCRIPTION "LLM wrapper for ricers"
   LANGUAGES C)
 
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "")
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_ENTITLEMENTS "")
+
 add_library(libchatty chatty.c chatty.h cJSON.c cJSON.h)
 set_target_properties(libchatty PROPERTIES OUTPUT_NAME chatty)
 add_executable(chatty main.c)
