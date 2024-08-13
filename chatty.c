@@ -135,6 +135,10 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     {
         key_env = "MISTRAL_API_KEY";
     }
+    else if (strncmp(base, "https://api.hyperbolic.xyz", strlen("https://api.hyperbolic.xyz")) == 0)
+    {
+        key_env = "HYPERBOLIC_API_KEY";
+    }
 
     char *key = curl_getenv(key_env);
     if (key == NULL)
