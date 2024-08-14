@@ -1,3 +1,3 @@
 #!/bin/zsh
 
-gtime -v ./loop.sh
+gtime -v ./loop.sh $1
