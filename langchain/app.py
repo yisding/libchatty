@@ -1,17 +1,9 @@
 from langchain_openai import ChatOpenAI
-
-model = ChatOpenAI(model="gpt-4o")
-
-from langchain_core.messages import HumanMessage, SystemMessage
-
-messages = [
-    HumanMessage(content="What is the C++ FQA?"),
-]
-
-result = model.invoke(messages)
-
+from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 
-parser = StrOutputParser()
+model = ChatOpenAI(model="gpt-4o")
+messages = [HumanMessage(content="What is the C++ FQA?")]
+result = model.invoke(messages)
 
-print(parser.invoke(result))
+print(StrOutputParser().invoke(result))
