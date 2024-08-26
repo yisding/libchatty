@@ -28,4 +28,32 @@
 	Exit status: 0
 ```
 
+### LlamaIndex 0.11
+
+```
+	Command being timed: "./loop.sh"
+	User time (seconds): 22.91
+	System time (seconds): 18.89
+	Percent of CPU this job got: 61%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:07.91
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 165520
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 153
+	Minor (reclaiming a frame) page faults: 273746
+	Voluntary context switches: 1657
+	Involuntary context switches: 52200
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 130
+	Socket messages received: 256
+	Signals delivered: 10
+	Page size (bytes): 16384
+	Exit status: 0
+```
+
 Literally 212x the CPU time and 21x the memory usage of libchatty.
