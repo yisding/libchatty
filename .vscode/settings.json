@@ -1,5 +1,6 @@
 {
-    "files.associations": {
-        "string.h": "c"
-    }
+  "files.associations": {
+    "string.h": "c",
+    "curl.h": "c"
+  }
 }

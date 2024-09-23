@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define CURL_NO_OLDIES
 #include <curl/curl.h>
 #include "cJSON.h"
 
