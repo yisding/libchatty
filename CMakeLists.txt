@@ -16,7 +16,7 @@ find_package(curl CONFIG REQUIRED)
 
 add_library(libchatty chatty.c chatty.h cJSON.c cJSON.h)
 set_target_properties(libchatty PROPERTIES OUTPUT_NAME chatty)
-target_link_libraries(libchatty PUBLIC curl)
+target_link_libraries(libchatty PUBLIC CURL::libcurl)
 
 add_executable(chatty main.c)
 target_link_libraries(chatty PUBLIC libchatty)
