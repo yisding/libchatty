@@ -192,7 +192,6 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libchatty/1.0");
     curl_easy_setopt(curl, CURLOPT_URL, chat_url);
     free(chat_url);
-    curl_easy_setopt(curl, CURLOPT_PROXY_SSL_VERIFYPEER, 0);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 
     struct curl_slist *headers = NULL;
