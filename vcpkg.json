@@ -1,5 +1,3 @@
 {
-  "dependencies": [
-    {"name": "curl", "features": ["http2"]}
-  ]
+  "dependencies": [{ "name": "curl", "features": ["http2", "openssl"] }]
 }
