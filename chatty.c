@@ -140,6 +140,10 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     {
         key_env = "HYPERBOLIC_API_KEY";
     }
+    else if (strncmp(base, "https://api.deepseek.com", strlen("https://api.deepseek.com")) == 0)
+    {
+        key_env = "DEEPSEEK_API_KEY";
+    }
 
     char *key = curl_getenv(key_env);
     if (key == NULL)
