@@ -115,6 +115,38 @@ char *chatty_to_json_string(int msgc, chatty_Message msgv[], chatty_Options opti
    You'll need to free response.message yourself. */
 enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options options, chatty_Message *response)
 {
+    // Input validation
+    if (msgc <= 0 || msgv == NULL || response == NULL)
+    {
+        return CHATTY_INVALID_OPTIONS;
+    }
+
+    if (options.model == NULL || strlen(options.model) == 0)
+    {
+        return CHATTY_INVALID_OPTIONS;
+    }
+
+    // Validate temperature range
+    if (options.has_temperature && (options.temperature < 0.0 || options.temperature > 2.0))
+    {
+        return CHATTY_INVALID_OPTIONS;
+    }
+
+    // Validate top_p range
+    if (options.has_top_p && (options.top_p < 0.0 || options.top_p > 1.0))
+    {
+        return CHATTY_INVALID_OPTIONS;
+    }
+
+    // Validate messages
+    for (int i = 0; i < msgc; i++)
+    {
+        if (msgv[i].message == NULL)
+        {
+            return CHATTY_INVALID_OPTIONS;
+        }
+    }
+
     char *base = curl_getenv("OPENAI_API_BASE");
     bool free_base = true;
     if (base == NULL)
@@ -286,4 +318,25 @@ parse_end:
         return CHATTY_JSON_PARSE_ERROR;
     }
     return CHATTY_SUCCESS;
+}
+
+const char *chatty_error_string(enum chatty_ERROR error)
+{
+    switch (error)
+    {
+    case CHATTY_SUCCESS:
+        return "Success";
+    case CHATTY_INVALID_KEY:
+        return "Invalid or missing API key";
+    case CHATTY_INVALID_OPTIONS:
+        return "Invalid options provided";
+    case CHATTY_CURL_INIT_ERROR:
+        return "Failed to initialize curl";
+    case CHATTY_CURL_NETWORK_ERROR:
+        return "Network error or non-200 HTTP response";
+    case CHATTY_JSON_PARSE_ERROR:
+        return "Failed to parse JSON response";
+    default:
+        return "Unknown error";
+    }
 }
