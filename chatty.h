@@ -37,3 +37,6 @@ typedef struct chatty_Options
 } chatty_Options;
 
 enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options options, chatty_Message *response);
+
+/* Get string representation of error code */
+const char *chatty_error_string(enum chatty_ERROR error);

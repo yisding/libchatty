@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     if (error != CHATTY_SUCCESS)
     {
-        fprintf(stderr, "Error: %d\n", error);
+        fprintf(stderr, "Error: %s\n", chatty_error_string(error));
         return 1;
     }
 
