@@ -251,7 +251,7 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
         free(bearer_header);
         return CHATTY_MEMORY_ERROR;
     }
-    chunk.size = 0;           // no data at this point
+    chunk.size = 0; // no data at this point
 
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libchatty/1.0");
     curl_easy_setopt(curl, CURLOPT_URL, chat_url);
