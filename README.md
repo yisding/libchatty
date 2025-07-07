@@ -4,6 +4,33 @@ Is your ChatGPT wrapper too slow? Is it causing you trouble in VC pitches? API c
 
 libchatty is 212x faster than [LlamaIndex](llamaindex/README.md), 40x faster than [LangChain](langchain/README.md) and is even 20x faster than [LITS 🔥](lits/README.md).
 
+## Supported Providers
+
+libchatty supports multiple AI providers through environment variables:
+
+| Provider | Base URL | Environment Variable |
+|----------|----------|---------------------|
+| OpenAI | `https://api.openai.com/v1` | `OPENAI_API_KEY` |
+| Groq | `https://api.groq.com/openai/v1` | `GROQ_API_KEY` |
+| Fireworks AI | `https://api.fireworks.ai/inference/v1` | `FIREWORKS_API_KEY` |
+| Mistral AI | `https://api.mistral.ai/v1` | `MISTRAL_API_KEY` |
+| Hyperbolic | `https://api.hyperbolic.xyz/v1` | `HYPERBOLIC_API_KEY` |
+| DeepSeek | `https://api.deepseek.com/v1` | `DEEPSEEK_API_KEY` |
+| Llama API (Meta) | `https://api.llama.com/v1` | `LLAMA_API_KEY` |
+
+Set the `OPENAI_API_BASE` environment variable to use a different provider:
+
+```bash
+# Use Groq
+OPENAI_API_BASE="https://api.groq.com/openai/v1" ./build/chatty llama-3.1-70b-versatile
+
+# Use Llama API (Meta)
+OPENAI_API_BASE="https://api.llama.com/v1" ./build/chatty Llama-4-Maverick-17B-128E-Instruct-FP8
+
+# Use OpenAI (default)
+./build/chatty gpt-4o
+```
+
 ## FAQ
 
 ### OMG this is so amazing what inspired you to make libchatty?
