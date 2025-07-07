@@ -1,3 +1,6 @@
 {
-  "dependencies": [{ "name": "curl", "features": ["http2", "openssl"] }]
+  "dependencies": [
+    { "name": "curl", "features": ["http2", "openssl"] },
+    "cmocka"
+  ]
 }

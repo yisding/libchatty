@@ -56,3 +56,9 @@ target_link_libraries(libchatty PUBLIC CURL::libcurl)
 
 add_executable(chatty main.c)
 target_link_libraries(chatty PUBLIC libchatty)
+
+# Enable testing
+enable_testing()
+
+# Add tests subdirectory
+add_subdirectory(tests)
