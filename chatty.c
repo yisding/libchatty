@@ -156,27 +156,27 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     }
 
     char *key_env = "OPENAI_API_KEY";
-    if (strncmp(base, "https://api.groq.com", strlen("https://api.groq.com")) == 0)
+    if (strstr(base, "https://api.groq.com") == base)
     {
         key_env = "GROQ_API_KEY";
     }
-    else if (strncmp(base, "https://api.fireworks.ai", strlen("https://api.fireworks.ai")) == 0)
+    else if (strstr(base, "https://api.fireworks.ai") == base)
     {
         key_env = "FIREWORKS_API_KEY";
     }
-    else if (strncmp(base, "https://api.mistral.ai", strlen("https://api.mistral.ai")) == 0)
+    else if (strstr(base, "https://api.mistral.ai") == base)
     {
         key_env = "MISTRAL_API_KEY";
     }
-    else if (strncmp(base, "https://api.hyperbolic.xyz", strlen("https://api.hyperbolic.xyz")) == 0)
+    else if (strstr(base, "https://api.hyperbolic.xyz") == base)
     {
         key_env = "HYPERBOLIC_API_KEY";
     }
-    else if (strncmp(base, "https://api.deepseek.com", strlen("https://api.deepseek.com")) == 0)
+    else if (strstr(base, "https://api.deepseek.com") == base)
     {
         key_env = "DEEPSEEK_API_KEY";
     }
-    else if (strncmp(base, "https://api.llama.com", strlen("https://api.llama.com")) == 0)
+    else if (strstr(base, "https://api.llama.com") == base)
     {
         key_env = "LLAMA_API_KEY";
     }
@@ -189,6 +189,15 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
 
     size_t chat_url_len = strlen(base) + strlen("/chat/completions") + 1;
     char *chat_url = malloc(chat_url_len);
+    if (chat_url == NULL)
+    {
+        if (free_base)
+        {
+            curl_free(base);
+        }
+        curl_free(key);
+        return CHATTY_MEMORY_ERROR;
+    }
     snprintf(chat_url, chat_url_len, "%s/chat/completions", base);
 
     if (free_base)
@@ -198,6 +207,12 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
 
     size_t header_len = strlen("Authorization: Bearer ") + strlen(key) + 1;
     char *bearer_header = malloc(header_len);
+    if (bearer_header == NULL)
+    {
+        curl_free(key);
+        free(chat_url);
+        return CHATTY_MEMORY_ERROR;
+    }
     snprintf(bearer_header, header_len, "Authorization: Bearer %s", key);
     curl_free(key);
 
@@ -227,6 +242,15 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     struct chatty_Memory chunk;
 
     chunk.memory = malloc(1); // grown as needed by the realloc above
+    if (chunk.memory == NULL)
+    {
+        free(payload);
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+        free(chat_url);
+        free(bearer_header);
+        return CHATTY_MEMORY_ERROR;
+    }
     chunk.size = 0;           // no data at this point
 
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libchatty/1.0");
@@ -308,6 +332,16 @@ parse_end:
     {
         response->role = role_enum;
         response->message = strdup(content->valuestring);
+        if (response->message == NULL)
+        {
+            // cleanup
+            cJSON_Delete(response_json);
+            free(chunk.memory);
+            curl_easy_cleanup(curl);
+            curl_global_cleanup();
+            free(bearer_header);
+            return CHATTY_MEMORY_ERROR;
+        }
     }
 
     // cleanup
@@ -340,6 +374,8 @@ const char *chatty_error_string(enum chatty_ERROR error)
         return "Network error or non-200 HTTP response";
     case CHATTY_JSON_PARSE_ERROR:
         return "Failed to parse JSON response";
+    case CHATTY_MEMORY_ERROR:
+        return "Memory allocation failure";
     default:
         return "Unknown error";
     }

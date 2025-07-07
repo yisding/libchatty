@@ -18,6 +18,7 @@ enum chatty_ERROR
     CHATTY_CURL_INIT_ERROR,
     CHATTY_CURL_NETWORK_ERROR,
     CHATTY_JSON_PARSE_ERROR,
+    CHATTY_MEMORY_ERROR,
 };
 
 typedef struct chatty_Message
