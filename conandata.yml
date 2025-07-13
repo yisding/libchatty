@@ -1,0 +1,4 @@
+sources:
+  "0.1":
+    url: "."
+    strip_root: false
