@@ -19,6 +19,8 @@ enum chatty_ERROR
     CHATTY_CURL_NETWORK_ERROR,
     CHATTY_JSON_PARSE_ERROR,
     CHATTY_MEMORY_ERROR,
+    CHATTY_STREAM_CALLBACK_ERROR,
+    CHATTY_STREAM_PARSE_ERROR,
 };
 
 typedef struct chatty_Message
@@ -37,7 +39,18 @@ typedef struct chatty_Options
     double top_p;
 } chatty_Options;
 
+typedef enum chatty_StreamStatus
+{
+    CHATTY_STREAM_CHUNK,     /* Partial content received */
+    CHATTY_STREAM_DONE,      /* Stream completed successfully */
+    CHATTY_STREAM_ERROR      /* Stream encountered an error */
+} chatty_StreamStatus;
+
+typedef int (*chatty_StreamCallback)(const char *content, chatty_StreamStatus status, void *user_data);
+
 enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options options, chatty_Message *response);
+
+enum chatty_ERROR chatty_chat_stream(int msgc, chatty_Message msgv[], chatty_Options options, chatty_StreamCallback callback, void *user_data);
 
 /* Get string representation of error code */
 const char *chatty_error_string(enum chatty_ERROR error);
