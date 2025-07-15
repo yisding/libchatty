@@ -180,6 +180,10 @@ enum chatty_ERROR chatty_chat(int msgc, chatty_Message msgv[], chatty_Options op
     {
         key_env = "LLAMA_API_KEY";
     }
+    else if (strstr(base, "https://api.moonshot.ai") == base)
+    {
+        key_env = "MOONSHOT_API_KEY";
+    }
 
     char *key = curl_getenv(key_env);
     if (key == NULL)
