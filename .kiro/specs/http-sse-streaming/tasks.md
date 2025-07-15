@@ -67,10 +67,18 @@
   - Include example of user_data usage for context passing
   - _Requirements: 2.1, 2.2_
 
-- [ ] 11. Integrate streaming support into main.c CLI
+- [x] 11. Integrate streaming support into main.c CLI
   - Add command-line flag (--stream or -s) to enable streaming mode
   - Implement streaming callback that prints tokens in real-time
   - Maintain backward compatibility with existing non-streaming behavior
   - Add usage information showing streaming option
   - Test streaming mode with different providers and models
   - _Requirements: 2.1, 2.2, 3.1_
+  
+- [x] 12. Refactor shared logic between chatty_chat and chatty_chat_stream
+  - Extract common HTTP setup logic into shared helper functions
+  - Create shared function for provider detection and authentication
+  - Extract common libcurl configuration into reusable functions
+  - Consolidate error handling and cleanup logic
+  - Maintain identical behavior while reducing code duplication
+  - _Requirements: 4.2, 4.3_
