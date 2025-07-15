@@ -34,6 +34,41 @@ endif()
 
 find_package(curl CONFIG REQUIRED)
 
+# Optional notcurses support
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+    pkg_check_modules(NOTCURSES QUIET notcurses)
+endif()
+
+# If pkg-config didn't find notcurses, try to find it via Homebrew on macOS
+if(NOT NOTCURSES_FOUND AND APPLE)
+    find_path(NOTCURSES_INCLUDE_DIR notcurses/notcurses.h
+        PATHS /opt/homebrew/opt/notcurses/include /opt/homebrew/include /usr/local/include
+        NO_DEFAULT_PATH)
+    find_library(NOTCURSES_LIBRARY notcurses
+        PATHS /opt/homebrew/opt/notcurses/lib /opt/homebrew/lib /usr/local/lib
+        NO_DEFAULT_PATH)
+    find_library(NOTCURSES_CORE_LIBRARY notcurses-core
+        PATHS /opt/homebrew/opt/notcurses/lib /opt/homebrew/lib /usr/local/lib
+        NO_DEFAULT_PATH)
+    
+    if(NOTCURSES_INCLUDE_DIR AND NOTCURSES_LIBRARY AND NOTCURSES_CORE_LIBRARY)
+        set(NOTCURSES_FOUND TRUE)
+        set(NOTCURSES_INCLUDE_DIRS ${NOTCURSES_INCLUDE_DIR})
+        set(NOTCURSES_LIBRARIES ${NOTCURSES_LIBRARY} ${NOTCURSES_CORE_LIBRARY})
+        message(STATUS "Found notcurses via Homebrew: ${NOTCURSES_LIBRARY}")
+        message(STATUS "Notcurses core library: ${NOTCURSES_CORE_LIBRARY}")
+        message(STATUS "Notcurses include dir: ${NOTCURSES_INCLUDE_DIR}")
+    endif()
+endif()
+
+if(NOTCURSES_FOUND)
+    message(STATUS "Building with notcurses interactive mode support")
+    add_compile_definitions(HAVE_NOTCURSES=1)
+else()
+    message(STATUS "Building without notcurses - interactive mode will use fallback")
+endif()
+
 add_library(libchatty chatty.c chatty.h cJSON.c cJSON.h)
 set_target_properties(libchatty PROPERTIES 
     OUTPUT_NAME chatty
@@ -56,3 +91,10 @@ target_link_libraries(libchatty PUBLIC CURL::libcurl)
 
 add_executable(chatty main.c)
 target_link_libraries(chatty PUBLIC libchatty)
+
+if(NOTCURSES_FOUND)
+    target_link_libraries(chatty PRIVATE ${NOTCURSES_LIBRARIES})
+    target_include_directories(chatty PRIVATE ${NOTCURSES_INCLUDE_DIRS})
+    target_compile_options(chatty PRIVATE ${NOTCURSES_CFLAGS_OTHER})
+    target_link_directories(chatty PRIVATE ${NOTCURSES_LIBRARY_DIRS})
+endif()
